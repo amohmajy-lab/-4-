@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار حفظ وفهم – الصفحة الرابعة من سورة البقرة</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:"Tahoma","Arial",sans-serif;
+    background:
+        radial-gradient(circle at top right,#e7f7ee,transparent 35%),
+        linear-gradient(135deg,#f8fbf9,#edf5ef);
+    color:#20252b;
+}
+
+.container{
+    width:min(1050px,96%);
+    margin:20px auto 60px;
+}
+
+.header{
+    background:linear-gradient(135deg,#176b45,#0b4d32);
+    color:#fff;
+    padding:30px 20px;
+    text-align:center;
+    border-radius:25px;
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+}
+
+.header h1{
+    margin:0 0 10px;
+    font-size:clamp(22px,4vw,34px);
+}
+
+.header p{margin:6px}
+
+.name-box,
+.instructions,
+.question,
+.result{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 6px 22px rgba(0,0,0,.06);
+}
+
+.name-box{
+    padding:18px;
+    margin-top:18px;
+}
+
+.name-box label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+input,textarea{
+    width:100%;
+    font-family:inherit;
+    font-size:17px;
+    border:2px solid #dce7e0;
+    border-radius:13px;
+    outline:none;
+    transition:.2s;
+}
+
+input{
+    padding:13px;
+}
+
+textarea{
+    padding:14px;
+    min-height:105px;
+    resize:vertical;
+    line-height:2;
+}
+
+input:focus,textarea:focus{
+    border-color:#23865a;
+    box-shadow:0 0 0 4px rgba(35,134,90,.1);
+}
+
+.instructions{
+    margin-top:18px;
+    padding:18px;
+    line-height:2;
+    background:#fffdf3;
+    border:1px solid #f1df99;
+}
+
+.instructions strong{color:#805e00}
+
+.section-title{
+    margin-top:25px;
+    padding:14px 18px;
+    border-radius:16px;
+    background:#e3f2e9;
+    color:#125c3c;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.question{
+    margin:17px 0;
+    padding:21px;
+    border-right:5px solid #23865a;
+}
+
+.question.correct{border-right-color:#16a34a}
+.question.partial{border-right-color:#f59e0b}
+.question.wrong{border-right-color:#dc2626}
+.question.hidden{display:none}
+
+.q-title{
+    font-size:18px;
+    font-weight:bold;
+    line-height:1.9;
+    margin-bottom:12px;
+}
+
+.feedback{
+    display:none;
+    margin-top:14px;
+    padding:15px;
+    border-radius:14px;
+    line-height:2;
+}
+
+.feedback.correct{
+    background:#ecfdf5;
+    color:#166534;
+    border:1px solid #86efac;
+}
+
+.feedback.partial{
+    background:#fffbeb;
+    color:#854d0e;
+    border:1px solid #fcd34d;
+}
+
+.feedback.wrong{
+    background:#fef2f2;
+    color:#991b1b;
+    border:1px solid #fca5a5;
+}
+
+.feedback-title{
+    font-weight:bold;
+    font-size:17px;
+    margin-bottom:7px;
+}
+
+.student-answer{
+    background:#fff;
+    padding:10px;
+    border-radius:9px;
+    margin:8px 0;
+    color:#374151;
+}
+
+.correct-text{
+    background:#f0fdf4;
+    padding:10px;
+    border-radius:9px;
+    margin:8px 0;
+    font-weight:bold;
+}
+
+.error-line{
+    margin:9px 0;
+    padding:10px;
+    background:rgba(255,255,255,.8);
+    border-radius:9px;
+}
+
+.error{
+    display:inline-block;
+    background:#fee2e2;
+    color:#991b1b;
+    border-radius:6px;
+    padding:2px 7px;
+    font-weight:bold;
+}
+
+.fix{
+    display:inline-block;
+    background:#dcfce7;
+    color:#166534;
+    border-radius:6px;
+    padding:2px 7px;
+    font-weight:bold;
+}
+
+.simple{
+    display:inline-block;
+    background:#fef3c7;
+    color:#92400e;
+    border-radius:20px;
+    padding:2px 9px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.major{
+    display:inline-block;
+    background:#fee2e2;
+    color:#991b1b;
+    border-radius:20px;
+    padding:2px 9px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.actions{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:30px 0;
+}
+
+button{
+    border:0;
+    border-radius:14px;
+    padding:14px 25px;
+    font-family:inherit;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.submit{
+    background:#176b45;
+    color:white;
+}
+
+.reset{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+.retry{
+    background:#d97706;
+    color:white;
+}
+
+.hidden-btn{
+    display:none;
+}
+
+.progress{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);
+    padding:10px;
+    border-radius:0 0 15px 15px;
+    margin-top:15px;
+}
+
+.progress-text{
+    font-size:13px;
+    margin-bottom:5px;
+    color:#4b5563;
+}
+
+.progress-bar{
+    height:9px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#23865a;
+    transition:.3s;
+}
+
+.result{
+    display:none;
+    padding:28px 20px;
+    text-align:center;
+    margin-top:25px;
+}
+
+.circle{
+    width:155px;
+    height:155px;
+    margin:10px auto 20px;
+    border-radius:50%;
+    border:9px solid #23865a;
+    background:#effaf3;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.score{
+    font-size:38px;
+    font-weight:bold;
+    color:#176b45;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-top:20px;
+}
+
+.summary-card{
+    padding:15px;
+    border-radius:15px;
+}
+
+.summary-card strong{
+    display:block;
+    font-size:27px;
+}
+
+.good{background:#ecfdf5;color:#166534}
+.warn{background:#fffbeb;color:#92400e}
+.bad{background:#fef2f2;color:#991b1b}
+
+.review{
+    text-align:right;
+    margin-top:25px;
+}
+
+.review-item{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    padding:13px;
+    margin:9px 0;
+    border-radius:13px;
+    line-height:1.9;
+}
+
+.tip{
+    background:#eff6ff;
+    color:#1e40af;
+    padding:10px;
+    border-radius:10px;
+    margin-top:8px;
+}
+
+@media(max-width:600px){
+    .container{width:96%}
+    .question{padding:17px}
+    textarea{font-size:16px}
+    button{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+    <h1>اختبار حفظ وفهم – الصفحة (4) من سورة البقرة</h1>
+    <p>الآيات (25–29)</p>
+    <p>الدرجة النهائية: <strong>20 درجة</strong></p>
+</header>
+
+<div class="name-box">
+    <label for="studentName">اسم الطالب / الطالبة</label>
+    <input id="studentName" type="text" placeholder="اكتب الاسم هنا">
+</div>
+
+<div class="instructions">
+    <strong>التصحيح الذكي:</strong><br>
+
+    اكتب الإجابة فقط، أو يمكنك كتابة السؤال مع الإجابة.
+    <br>
+
+    لا يلزم كتابة التشكيل أو الشدة أو التنوين،
+    ولا تعتبر اختلافات الهمزات خطأ.
+    <br>
+
+    النظام يتسامح مع الأخطاء الإملائية البسيطة،
+    لكنه ينبهك إليها ويخبرك بالصحيح.
+    <br>
+
+    إذا كانت هناك كلمة ناقصة أو زائدة أو كلمة خاطئة،
+    سيحدد لك النظام <strong>مكان الخطأ والكلمة والصواب</strong>.
+    <br>
+
+    في أسئلة الفهم، لا يشترط النظام صياغة واحدة،
+    بل يبحث عن <strong>المعنى الصحيح</strong>.
+</div>
+
+<div class="progress">
+    <div class="progress-text" id="progressText">
+        تمت الإجابة عن 0 من 20
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     أولًا
+===================================================== -->
+
+<div class="section-title">
+    أولًا: أكمل قوله تعالى
+</div>
+
+<div class="question" data-q="1">
+    <div class="q-title">
+        1. أكمل الآية رقم (25) كاملة.
+    </div>
+
+    <textarea id="q1"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f1"></div>
+</div>
+
+
+<div class="question" data-q="2">
+    <div class="q-title">
+        2. أكمل الآية رقم (26) كاملة.
+    </div>
+
+    <textarea id="q2"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f2"></div>
+</div>
+
+
+<div class="question" data-q="3">
+    <div class="q-title">
+        3. أكمل الآية رقم (27) كاملة.
+    </div>
+
+    <textarea id="q3"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f3"></div>
+</div>
+
+
+<div class="question" data-q="4">
+    <div class="q-title">
+        4. أكمل الآية رقم (28) كاملة.
+    </div>
+
+    <textarea id="q4"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f4"></div>
+</div>
+
+
+<div class="question" data-q="5">
+    <div class="q-title">
+        5. أكمل الآية رقم (29) كاملة.
+    </div>
+
+    <textarea id="q5"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f5"></div>
+</div>
+
+
+<!-- =====================================================
+     ثانيًا
+===================================================== -->
+
+<div class="section-title">
+    ثانيًا: ما الكلمة التي جاءت...
+</div>
+
+<div class="question" data-q="6">
+    <div class="q-title">
+        6. ما الكلمة التي جاءت بعد كلمة «وعملوا»؟
+    </div>
+
+    <textarea id="q6"
+        placeholder="اكتب الكلمة المطلوبة فقط..."></textarea>
+
+    <div class="feedback" id="f6"></div>
+</div>
+
+
+<div class="question" data-q="7">
+    <div class="q-title">
+        7. ما الكلمة التي جاءت قبل كلمة «الفاسقين»؟
+    </div>
+
+    <textarea id="q7"
+        placeholder="اكتب الكلمة المطلوبة فقط..."></textarea>
+
+    <div class="feedback" id="f7"></div>
+</div>
+
+
+<!-- =====================================================
+     ثالثًا
+===================================================== -->
+
+<div class="section-title">
+    ثالثًا: صحح الكلمة الخاطئة
+</div>
+
+<div class="question" data-q="8">
+    <div class="q-title">
+        8. في العبارة المعطاة توجد كلمة غير صحيحة.
+        اكتب الكلمة الصحيحة.
+    </div>
+
+    <textarea id="q8"
+        placeholder="اكتب التصحيح..."></textarea>
+
+    <div class="feedback" id="f8"></div>
+</div>
+
+
+<div class="question" data-q="9">
+    <div class="q-title">
+        9. في العبارة المعطاة توجد كلمة غير صحيحة.
+        اكتب الكلمة الصحيحة.
+    </div>
+
+    <textarea id="q9"
+        placeholder="اكتب التصحيح..."></textarea>
+
+    <div class="feedback" id="f9"></div>
+</div>
+
+
+<div class="question" data-q="10">
+    <div class="q-title">
+        10. في العبارة المعطاة توجد كلمة غير صحيحة.
+        اكتب الكلمة الصحيحة.
+    </div>
+
+    <textarea id="q10"
+        placeholder="اكتب التصحيح..."></textarea>
+
+    <div class="feedback" id="f10"></div>
+</div>
+
+
+<div class="question" data-q="11">
+    <div class="q-title">
+        11. في العبارة المعطاة توجد كلمة غير صحيحة.
+        اكتب الكلمة الصحيحة.
+    </div>
+
+    <textarea id="q11"
+        placeholder="اكتب التصحيح..."></textarea>
+
+    <div class="feedback" id="f11"></div>
+</div>
+
+
+<!-- =====================================================
+     رابعًا
+===================================================== -->
+
+<div class="section-title">
+    رابعًا: اكتب
+</div>
+
+<div class="question" data-q="12">
+    <div class="q-title">
+        12. اكتب الآية التي ورد فيها ذكر أزواج أهل الجنة.
+    </div>
+
+    <textarea id="q12"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f12"></div>
+</div>
+
+
+<div class="question" data-q="13">
+    <div class="q-title">
+        13. اكتب الآية التي ورد فيها ذكر خلق السماوات السبع.
+    </div>
+
+    <textarea id="q13"
+        placeholder="اكتب الآية من حفظك..."></textarea>
+
+    <div class="feedback" id="f13"></div>
+</div>
+
+
+<!-- =====================================================
+     خامسًا
+===================================================== -->
+
+<div class="section-title">
+    خامسًا: رتب الكلمات لتكون جزءًا من آية
+</div>
+
+<div class="question" data-q="14">
+    <div class="q-title">
+        14. رتب الكلمات الآتية:
+        <br><br>
+        (مطهرة – أزواج – فيها – ولهم)
+    </div>
+
+    <textarea id="q14"
+        placeholder="اكتب الترتيب الصحيح..."></textarea>
+
+    <div class="feedback" id="f14"></div>
+</div>
+
+
+<div class="question" data-q="15">
+    <div class="q-title">
+        15. رتب الكلمات الآتية:
+        <br><br>
+        (الخاسرون – أولئك – هم)
+    </div>
+
+    <textarea id="q15"
+        placeholder="اكتب الترتيب الصحيح..."></textarea>
+
+    <div class="feedback" id="f15"></div>
+</div>
+
+
+<!-- =====================================================
+     سادسًا
+===================================================== -->
+
+<div class="section-title">
+    سادسًا: اكتب الكلمة الناقصة
+</div>
+
+<div class="question" data-q="16">
+    <div class="q-title">
+        16. أكمل الكلمة الناقصة في الآية رقم (25).
+    </div>
+
+    <textarea id="q16"
+        placeholder="اكتب الكلمة فقط..."></textarea>
+
+    <div class="feedback" id="f16"></div>
+</div>
+
+
+<div class="question" data-q="17">
+    <div class="q-title">
+        17. أكمل الكلمة الناقصة في الآية رقم (25).
+    </div>
+
+    <textarea id="q17"
+        placeholder="اكتب الكلمة فقط..."></textarea>
+
+    <div class="feedback" id="f17"></div>
+</div>
+
+
+<div class="question" data-q="18">
+    <div class="q-title">
+        18. أكمل الكلمة الناقصة في الآية رقم (27).
+    </div>
+
+    <textarea id="q18"
+        placeholder="اكتب الكلمة فقط..."></textarea>
+
+    <div class="feedback" id="f18"></div>
+</div>
+
+
+<div class="question" data-q="19">
+    <div class="q-title">
+        19. أكمل الكلمة الناقصة في الآية رقم (29).
+    </div>
+
+    <textarea id="q19"
+        placeholder="اكتب الكلمة فقط..."></textarea>
+
+    <div class="feedback" id="f19"></div>
+</div>
+
+
+<!-- =====================================================
+     سابعًا
+===================================================== -->
+
+<div class="section-title">
+    سابعًا: فهم الآيات
+</div>
+
+<div class="question" data-q="20">
+    <div class="q-title">
+        20. ما الفوائد التي تعلمتها من هذه الصفحة؟
+        <br>
+        اذكر فائدتين باختصار.
+    </div>
+
+    <textarea id="q20"
+        placeholder="اكتب فائدتين أو أكثر..."></textarea>
+
+    <div class="feedback" id="f20"></div>
+</div>
+
+
+<div class="actions">
+
+    <button class="submit"
+        type="button"
+        onclick="gradeQuiz()">
+        تصحيح الاختبار
+    </button>
+
+    <button class="reset"
+        type="button"
+        onclick="resetQuiz()">
+        إعادة الاختبار
+    </button>
+
+    <button class="retry hidden-btn"
+        id="retryBtn"
+        type="button"
+        onclick="retryWrong()">
+        إعادة حل الأخطاء فقط
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     النتيجة
+===================================================== -->
+
+<div class="result" id="result">
+
+    <h2>نتيجة الاختبار</h2>
+
+    <div class="circle">
+        <div class="score" id="score">0/20</div>
+        <div>الدرجة</div>
+    </div>
+
+    <h3 id="message"></h3>
+
+    <div class="summary">
+
+        <div class="summary-card good">
+            <strong id="correctCount">0</strong>
+            صحيحة
+        </div>
+
+        <div class="summary-card warn">
+            <strong id="partialCount">0</strong>
+            جزئية
+        </div>
+
+        <div class="summary-card bad">
+            <strong id="wrongCount">0</strong>
+            تحتاج مراجعة
+        </div>
+
+    </div>
+
+    <div class="review" id="review"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   الإجابات المرجعية
+   سورة البقرة 25 - 29
+========================================================= */
+
+const DATA = {
+
+1:{
+    type:"verse",
+
+    expected:
+    "وبشر الذين آمنوا وعملوا الصالحات أن لهم جنات تجري من تحتها الأنهار كلما رزقوا منها من ثمرة رزقا قالوا هذا الذي رزقنا من قبل وأتوا به متشابها ولهم فيها أزواج مطهرة وهم فيها خالدون",
+
+    label:"الآية 25"
+},
+
+2:{
+    type:"verse",
+
+    expected:
+    "إن الله لا يستحيي أن يضرب مثلا ما بعوضة فما فوقها فأما الذين آمنوا فيعلمون أنه الحق من ربهم وأما الذين كفروا فيقولون ماذا أراد الله بهذا مثلا يضل به كثيرا ويهدي به كثيرا وما يضل به إلا الفاسقين",
+
+    label:"الآية 26"
+},
+
+3:{
+    type:"verse",
+
+    expected:
+    "الذين ينقضون عهد الله من بعد ميثاقه ويقطعون ما أمر الله به أن يوصل ويفسدون في الأرض أولئك هم الخاسرون",
+
+    label:"الآية 27"
+},
+
+4:{
+    type:"verse",
+
+    expected:
+    "كيف تكفرون بالله وكنتم أمواتا فأحياكم ثم يميتكم ثم يحييكم ثم إليه ترجعون",
+
+    label:"الآية 28"
+},
+
+5:{
+    type:"verse",
+
+    expected:
+    "هو الذي خلق لكم ما في الأرض جميعا ثم استوى إلى السماء فسواهن سبع سماوات وهو بكل شيء عليم",
+
+    label:"الآية 29"
+},
+
+6:{
+    type:"word",
+
+    accepted:[
+        "الصالحات",
+        "الصالحاتِ"
+    ],
+
+    correct:"الصالحات"
+},
+
+7:{
+    type:"word",
+
+    accepted:[
+        "إلا",
+        "الا"
+    ],
+
+    correct:"إلا"
+},
+
+8:{
+    type:"correction",
+
+    wrong:[
+        "السيئات"
+    ],
+
+    accepted:[
+        "الصالحات"
+    ],
+
+    correct:"الصالحات"
+},
+
+9:{
+    type:"correction",
+
+    wrong:[
+        "بعد"
+    ],
+
+    accepted:[
+        "قبل"
+    ],
+
+    correct:"قبل"
+},
+
+10:{
+    type:"correction",
+
+    wrong:[
+        "يقطع",
+        "يوصل",
+        "يقطع"
+    ],
+
+    accepted:[
+        "يوصل"
+    ],
+
+    correct:"يوصل"
+},
+
+11:{
+    type:"correction",
+
+    wrong:[
+        "أحياء",
+        "احياء"
+    ],
+
+    accepted:[
+        "أمواتا",
+        "امواتا"
+    ],
+
+    correct:"أمواتًا"
+},
+
+12:{
+    type:"verse",
+
+    acceptedVerses:[
+        "وبشر الذين آمنوا وعملوا الصالحات أن لهم جنات تجري من تحتها الأنهار كلما رزقوا منها من ثمرة رزقا قالوا هذا الذي رزقنا من قبل وأتوا به متشابها ولهم فيها أزواج مطهرة وهم فيها خالدون"
+    ],
+
+    expected:
+    "وبشر الذين آمنوا وعملوا الصالحات أن لهم جنات تجري من تحتها الأنهار كلما رزقوا منها من ثمرة رزقا قالوا هذا الذي رزقنا من قبل وأتوا به متشابها ولهم فيها أزواج مطهرة وهم فيها خالدون",
+
+    label:"الآية 25"
+},
+
+13:{
+    type:"verse",
+
+    acceptedVerses:[
+        "هو الذي خلق لكم ما في الأرض جميعا ثم استوى إلى السماء فسواهن سبع سماوات وهو بكل شيء عليم"
+    ],
+
+    expected:
+    "هو الذي خلق لكم ما في الأرض جميعا ثم استوى إلى السماء فسواهن سبع سماوات وهو بكل شيء عليم",
+
+    label:"الآية 29"
+},
+
+14:{
+    type:"order",
+
+    expected:
+    "ولهم فيها أزواج مطهرة",
+
+    correct:"وَلَهُمْ فِيهَا أَزْوَاجٌ مُطَهَّرَةٌ"
+},
+
+15:{
+    type:"order",
+
+    acceptedOrders:[
+        "أولئك هم الخاسرون",
+        "وأولئك هم الخاسرون"
+    ],
+
+    expected:
+    "أولئك هم الخاسرون",
+
+    correct:"أُولَئِكَ هُمُ الْخَاسِرُونَ"
+},
+
+16:{
+    type:"word",
+
+    accepted:[
+        "الصالحات"
+    ],
+
+    correct:"الصالحات"
+},
+
+17:{
+    type:"word",
+
+    accepted:[
+        "مطهرة",
+        "مطهره"
+    ],
+
+    correct:"مطهرة"
+},
+
+18:{
+    type:"word",
+
+    accepted:[
+        "ميثاقه",
+        "ميثاق"
+    ],
+
+    correct:"ميثاقه"
+},
+
+19:{
+    type:"word",
+
+    accepted:[
+        "سبع",
+        "سبعة"
+    ],
+
+    correct:"سبع"
+},
+
+20:{
+    type:"understanding"
+}
+
+};
+
+
+/* =========================================================
+   تطبيع النص العربي
+========================================================= */
+
+function normalize(text){
+
+    if(!text) return "";
+
+    let s=String(text);
+
+    /* إزالة التشكيل */
+    s=s.replace(
+        /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g,
+        ""
+    );
+
+    /* إزالة التطويل */
+    s=s.replace(/ـ/g,"");
+
+    /* توحيد الهمزات */
+    s=s.replace(/[أإآٱ]/g,"ا");
+
+    s=s.replace(/ؤ/g,"و");
+    s=s.replace(/ئ/g,"ي");
+
+    /* الألف المقصورة */
+    s=s.replace(/ى/g,"ي");
+
+    /* التاء المربوطة */
+    s=s.replace(/ة/g,"ه");
+
+    /* إزالة علامات الترقيم */
+    s=s.replace(
+        /[،؛؟?!:.,«»"“”'()\[\]{}]/g,
+        " "
+    );
+
+    /* إزالة مسافات زائدة */
+    s=s.replace(/\s+/g," ").trim();
+
+    return s;
+}
+
+
+function tokenize(text){
+
+    return normalize(text)
+        .split(/\s+/)
+        .filter(Boolean);
+}
+
+
+/* =========================================================
+   Levenshtein
+========================================================= */
+
+function levenshtein(a,b){
+
+    const matrix=[];
+
+    for(let i=0;i<=b.length;i++){
+        matrix[i]=[i];
+    }
+
+    for(let j=0;j<=a.length;j++){
+        matrix[0][j]=j;
+    }
+
+    for(let i=1;i<=b.length;i++){
+
+        for(let j=1;j<=a.length;j++){
+
+            if(b[i-1]===a[j-1]){
+
+                matrix[i][j]=matrix[i-1][j];
+
+            }else{
+
+                matrix[i][j]=Math.min(
+                    matrix[i-1][j-1]+1,
+                    matrix[i][j-1]+1,
+                    matrix[i-1][j]+1
+                );
+            }
+        }
+    }
+
+    return matrix[b.length][a.length];
+}
+
+
+function similarity(a,b){
+
+    a=normalize(a);
+    b=normalize(b);
+
+    if(!a || !b) return 0;
+
+    if(a===b) return 1;
+
+    return 1 -
+        levenshtein(a,b) /
+        Math.max(a.length,b.length);
+}
+
+
+/* =========================================================
+   مقارنة الآيات كلمة بكلمة
+========================================================= */
+
+function compareVerse(student,expected){
+
+    const s=tokenize(student);
+    const e=tokenize(expected);
+
+    if(!s.length){
+
+        return {
+            score:0,
+            status:"wrong",
+            errors:[]
+        };
+    }
+
+    if(
+        normalize(student)===
+        normalize(expected)
+    ){
+
+        return {
+            score:1,
+            status:"correct",
+            errors:[]
+        };
+    }
+
+    let i=0;
+    let j=0;
+
+    let matches=0;
+    let errors=[];
+
+    while(i<e.length && j<s.length){
+
+        const expectedWord=e[i];
+        const studentWord=s[j];
+
+        /* تطابق تام */
+
+        if(
+            normalize(expectedWord)===
+            normalize(studentWord)
+        ){
+
+            matches++;
+            i++;
+            j++;
+            continue;
+        }
+
+        /* خطأ إملائي بسيط */
+
+        if(
+            similarity(
+                expectedWord,
+                studentWord
+            ) >= .80
+        ){
+
+            matches++;
+
+            errors.push({
+                type:"spelling",
+                position:i+1,
+                student:studentWord,
+                correct:expectedWord
+            });
+
+            i++;
+            j++;
+            continue;
+        }
+
+        /* كلمة زائدة */
+
+        if(
+            j+1<s.length &&
+            similarity(
+                expectedWord,
+                s[j+1]
+            ) >= .88
+        ){
+
+            errors.push({
+                type:"extra",
+                position:i+1,
+                student:studentWord,
+                correct:expectedWord
+            });
+
+            j++;
+            continue;
+        }
+
+        /* كلمة ناقصة */
+
+        if(
+            i+1<e.length &&
+            similarity(
+                e[i+1],
+                studentWord
+            ) >= .88
+        ){
+
+            errors.push({
+                type:"missing",
+                position:i+1,
+                student:"",
+                correct:expectedWord
+            });
+
+            i++;
+            continue;
+        }
+
+        /* كلمة خاطئة */
+
+        errors.push({
+            type:"wrong",
+            position:i+1,
+            student:studentWord,
+            correct:expectedWord
+        });
+
+        i++;
+        j++;
+    }
+
+    /* كلمات ناقصة في النهاية */
+
+    while(i<e.length){
+
+        errors.push({
+            type:"missing",
+            position:i+1,
+            student:"",
+            correct:e[i]
+        });
+
+        i++;
+    }
+
+    /* كلمات زائدة */
+
+    while(j<s.length){
+
+        errors.push({
+            type:"extra",
+            position:e.length+1,
+            student:s[j],
+            correct:""
+        });
+
+        j++;
+    }
+
+    const ratio=matches/e.length;
+
+    let score=0;
+    let status="wrong";
+
+    if(ratio>=.96){
+
+        score=1;
+        status="correct";
+
+    }else if(ratio>=.75){
+
+        score=.75;
+        status="partial";
+
+    }else if(ratio>=.50){
+
+        score=.50;
+        status="partial";
+    }
+
+    return {
+        score,
+        status,
+        errors
+    };
+}
+
+
+/* =========================================================
+   تصحيح كلمة
+========================================================= */
+
+function gradeWord(student,accepted){
+
+    const s=normalize(student);
+
+    if(!s){
+
+        return {
+            score:0,
+            status:"wrong",
+            errors:[]
+        };
+    }
+
+    for(const item of accepted){
+
+        const e=normalize(item);
+
+        if(
+            s===e ||
+            s.includes(e)
+        ){
+
+            return {
+                score:1,
+                status:"correct",
+                errors:[]
+            };
+        }
+
+        if(
+            similarity(s,e)>=.80
+        ){
+
+            return {
+                score:.75,
+                status:"partial",
+                errors:[
+                    {
+                        type:"spelling",
+                        student:s,
+                        correct:item
+                    }
+                ]
+            };
+        }
+    }
+
+    return {
+        score:0,
+        status:"wrong",
+        errors:[
+            {
+                type:"wrong",
+                student:s,
+                correct:accepted[0]
+            }
+        ]
+    };
+}
+
+
+/* =========================================================
+   تصحيح أسئلة «صحح الكلمة»
+========================================================= */
+
+function gradeCorrection(q,student){
+
+    const data=DATA[q];
+
+    const s=normalize(student);
+
+    if(!s){
+
+        return {
+            score:0,
+            status:"wrong",
+            errors:[]
+        };
+    }
+
+    for(const item of data.accepted){
+
+        if(
+            s===normalize(item) ||
+            s.includes(normalize(item))
+        ){
+
+            return {
+                score:1,
+                status:"correct",
+                errors:[]
+            };
+        }
+
+        if(
+            similarity(s,item)>=.80
+        ){
+
+            return {
+                score:.75,
+                status:"partial",
+                errors:[
+                    {
+                        type:"spelling",
+                        student:s,
+                        correct:item
+                    }
+                ]
+            };
+        }
+    }
+
+    return {
+        score:0,
+        status:"wrong",
+        errors:[
+            {
+                type:"wrong",
+                student:s,
+                correct:data.correct
+            }
+        ]
+    };
+}
+
+
+/* =========================================================
+   ترتيب الكلمات
+========================================================= */
+
+function gradeOrder(student,expected,acceptedOrders=[]){
+
+    const s=normalize(student);
+
+    if(!s){
+
+        return {
+            score:0,
+            status:"wrong",
+            errors:[]
+        };
+    }
+
+    /* قبول جميع الترتيبات الصحيحة المحددة */
+
+    for(const accepted of acceptedOrders){
+
+        if(
+            s===normalize(accepted)
+        ){
+
+            return {
+                score:1,
+                status:"correct",
+                errors:[]
+            };
+        }
+    }
+
+    if(
+        s===normalize(expected)
+    ){
+
+        return {
+            score:1,
+            status:"correct",
+            errors:[]
+        };
+    }
+
+    const st=tokenize(student);
+    const ex=tokenize(expected);
+
+    let matches=0;
+    let errors=[];
+
+    const max=Math.max(
+        st.length,
+        ex.length
+    );
+
+    for(let i=0;i<max;i++){
+
+        const a=st[i];
+        const b=ex[i];
+
+        if(!a){
+
+            errors.push({
+                type:"missing",
+                position:i+1,
+                student:"",
+                correct:b
+            });
+
+            continue;
+        }
+
+        if(!b){
+
+            errors.push({
+                type:"extra",
+                position:i+1,
+                student:a,
+                correct:""
+            });
+
+            continue;
+        }
+
+        if(
+            normalize(a)===
+            normalize(b)
+        ){
+
+            matches++;
+
+        }else if(
+            similarity(a,b)>=.80
+        ){
+
+            matches++;
+
+            errors.push({
+                type:"spelling",
+                position:i+1,
+                student:a,
+                correct:b
+            });
+
+        }else{
+
+            errors.push({
+                type:"wrong",
+                position:i+1,
+                student:a,
+                correct:b
+            });
+        }
+    }
+
+    const ratio=
+        matches/ex.length;
+
+    if(ratio>=.75){
+
+        return {
+            score:.75,
+            status:"partial",
+            errors
+        };
+    }
+
+    return {
+        score:0,
+        status:"wrong",
+        errors
+    };
+}
+
+
+/* =========================================================
+   سؤال الفهم
+========================================================= */
+
+function gradeUnderstanding(student){
+
+    const s=normalize(student);
+
+    if(!s){
+
+        return {
+            score:0,
+            status:"wrong",
+            concepts:[]
+        };
+    }
+
+    /*
+       لا نطلب صياغة واحدة.
+       يمكن للطالب التعبير عن الفكرة بأسلوبه.
+    */
+
+    const concepts=[
+
+        {
+            name:"نعيم الجنة",
+            keys:[
+                "الجنة",
+                "جنات",
+                "نعيم الجنة"
+            ]
+        },
+
+        {
+            name:"جريان الأنهار في الجنة",
+            keys:[
+                "الانهار",
+                "الأنهار",
+                "تجري الانهار"
+            ]
+        },
+
+        {
+            name:"وجود أزواج مطهرة في الجنة",
+            keys:[
+                "ازواج مطهرة",
+                "أزواج مطهرة",
+                "زوجات مطهرات",
+                "ازواج في الجنة"
+            ]
+        },
+
+        {
+            name:"الخلود في الجنة",
+            keys:[
+                "خالدون",
+                "الخلود",
+                "يبقون في الجنة",
+                "لا يخرجون من الجنة"
+            ]
+        },
+
+        {
+            name:"الحذر من نقض عهد الله",
+            keys:[
+                "نقض العهد",
+                "عهد الله",
+                "عدم نقض عهد الله"
+            ]
+        },
+
+        {
+            name:"صلة الرحم",
+            keys:[
+                "صلة الرحم",
+                "صلة الارحام",
+                "وصل ما امر الله به"
+            ]
+        },
+
+        {
+            name:"النهي عن الإفساد في الأرض",
+            keys:[
+                "يفسدون في الارض",
+                "الإفساد في الأرض",
+                "الفساد في الارض"
+            ]
+        },
+
+        {
+            name:"الإيمان بقدرة الله على الإحياء والإماتة",
+            keys:[
+                "احياكم",
+                "أحياكم",
+                "الإحياء",
+                "الاماته",
+                "يميتكم",
+                "يحييكم",
+                "قدرة الله على الاحياء"
+            ]
+        },
+
+        {
+            name:"التفكر في خلق الله",
+            keys:[
+                "خلق الله",
+                "خلق الارض",
+                "خلق السماوات",
+                "السماوات السبع",
+                "التفكر في الخلق"
+            ]
+        },
+
+        {
+            name:"الله بكل شيء عليم",
+            keys:[
+                "بكل شيء عليم",
+                "علم الله",
+                "الله عليم"
+            ]
+        }
+    ];
+
+    let found=[];
+
+    for(const group of concepts){
+
+        for(const key of group.keys){
+
+            if(
+                s.includes(
+                    normalize(key)
+                )
+            ){
+
+                found.push(
+                    group.name
+                );
+
+                break;
+            }
+        }
+    }
+
+    found=[
+        ...new Set(found)
+    ];
+
+    /*
+       فائدتان = الدرجة كاملة.
+       فائدة واحدة = نصف الدرجة.
+    */
+
+    if(found.length>=2){
+
+        return {
+            score:1,
+            status:"correct",
+            concepts:found
+        };
+    }
+
+    if(found.length===1){
+
+        return {
+            score:.5,
+            status:"partial",
+            concepts:found
+        };
+    }
+
+    return {
+        score:0,
+        status:"wrong",
+        concepts:[]
+    };
+}
+
+
+/* =========================================================
+   وصف الخطأ
+========================================================= */
+
+function errorDescription(error){
+
+    if(error.type==="wrong"){
+
+        return `
+        <div class="error-line">
+
+            ❌ <strong>خطأ في الكلمة:</strong>
+
+            <span class="error">
+                ${escapeHTML(error.student)}
+            </span>
+
+            <br>
+
+            ✅ <strong>الصواب:</strong>
+
+            <span class="fix">
+                ${escapeHTML(error.correct)}
+            </span>
+
+        </div>
+        `;
+    }
+
+    if(error.type==="spelling"){
+
+        return `
+        <div class="error-line">
+
+            ⚠️ <strong>تنبيه: خطأ إملائي بسيط</strong>
+
+            <br>
+
+            كتبت:
+
+            <span class="error">
+                ${escapeHTML(error.student)}
+            </span>
+
+            <br>
+
+            والصحيح:
+
+            <span class="fix">
+                ${escapeHTML(error.correct)}
+            </span>
+
+            <br>
+
+            <span class="simple">
+                لا يُعتبر خطأ حفظ كاملًا
+            </span>
+
+        </div>
+        `;
+    }
+
+    if(error.type==="missing"){
+
+        return `
+        <div class="error-line">
+
+            ⚠️ <strong>كلمة ناقصة</strong>
+
+            <br>
+
+            الكلمة التي نسيتها:
+
+            <span class="fix">
+                ${escapeHTML(error.correct)}
+            </span>
+
+            <br>
+
+            الموضع التقريبي:
+            <strong>
+                الكلمة رقم ${error.position}
+            </strong>
+
+        </div>
+        `;
+    }
+
+    if(error.type==="extra"){
+
+        return `
+        <div class="error-line">
+
+            ⚠️ <strong>كلمة زائدة</strong>
+
+            <br>
+
+            كتبت:
+
+            <span class="error">
+                ${escapeHTML(error.student)}
+            </span>
+
+            <br>
+
+            هذه الكلمة ليست في هذا الموضع من الآية.
+
+        </div>
+        `;
+    }
+
+    return "";
+}
+
+
+/* =========================================================
+   عرض التصحيح
+========================================================= */
+
+function showFeedback(q,result,student){
+
+    const box=
+        document.getElementById("f"+q);
+
+    const card=
+        document.querySelector(
+            `[data-q="${q}"]`
+        );
+
+    box.style.display="block";
+
+    card.classList.remove(
+        "correct",
+        "partial",
+        "wrong"
+    );
+
+
+    /* صحيحة */
+
+    if(result.status==="correct"){
+
+        card.classList.add("correct");
+
+        box.className=
+            "feedback correct";
+
+        let html=`
+            <div class="feedback-title">
+                ✓ إجابة صحيحة
+            </div>
+
+            <div>
+                أحسنت! إجابتك مقبولة.
+            </div>
+        `;
+
+        if(
+            result.errors &&
+            result.errors.length
+        ){
+
+            html+=`
+                <div>
+                    <strong>تنبيه بسيط:</strong>
+                </div>
+            `;
+
+            result.errors.forEach(e=>{
+                html+=errorDescription(e);
+            });
+        }
+
+        box.innerHTML=html;
+
+        return;
+    }
+
+
+    /* جزئية */
+
+    if(result.status==="partial"){
+
+        card.classList.add("partial");
+
+        box.className=
+            "feedback partial";
+
+        let html=`
+            <div class="feedback-title">
+                ◐ إجابة صحيحة جزئيًا
+            </div>
+
+            <div class="student-answer">
+
+                <strong>إجابتك:</strong>
+
+                <br>
+
+                ${escapeHTML(student)}
+
+            </div>
+        `;
+
+        if(
+            result.errors &&
+            result.errors.length
+        ){
+
+            result.errors.forEach(e=>{
+                html+=errorDescription(e);
+            });
+        }
+
+        if(q===20){
+
+            html+=`
+                <div class="tip">
+                    ذكرت فائدة صحيحة،
+                    لكن السؤال يطلب فائدتين.
+                    أضف فائدة أخرى.
+                </div>
+            `;
+        }
+
+        box.innerHTML=html;
+
+        return;
+    }
+
+
+    /* خطأ */
+
+    card.classList.add("wrong");
+
+    box.className=
+        "feedback wrong";
+
+    let html=`
+        <div class="feedback-title">
+            ✗ تحتاج إلى مراجعة
+        </div>
+
+        <div class="student-answer">
+
+            <strong>إجابتك:</strong>
+
+            <br>
+
+            ${escapeHTML(
+                student || "لم تكتب إجابة"
+            )}
+
+        </div>
+    `;
+
+    if(
+        result.errors &&
+        result.errors.length
+    ){
+
+        result.errors.forEach(e=>{
+            html+=errorDescription(e);
+        });
+    }
+
+    if(DATA[q].expected){
+
+        html+=`
+            <div class="correct-text">
+
+                <strong>
+                    النص الصحيح:
+                </strong>
+
+                <br>
+
+                ${escapeHTML(
+                    DATA[q].expected
+                )}
+
+            </div>
+        `;
+    }
+
+    if(DATA[q].correct){
+
+        html+=`
+            <div class="correct-text">
+
+                <strong>
+                    الإجابة الصحيحة:
+                </strong>
+
+                <br>
+
+                ${escapeHTML(
+                    DATA[q].correct
+                )}
+
+            </div>
+        `;
+    }
+
+    if(q===20){
+
+        html+=`
+            <div class="correct-text">
+
+                <strong>
+                    أمثلة على فوائد مقبولة:
+                </strong>
+
+                <br><br>
+
+                • نعيم الجنة وما فيها من أنهار.
+                <br>
+                • وجود أزواج مطهرة في الجنة.
+                <br>
+                • الخلود في الجنة.
+                <br>
+                • عدم نقض عهد الله.
+                <br>
+                • صلة ما أمر الله به أن يوصل.
+                <br>
+                • عدم الإفساد في الأرض.
+                <br>
+                • التفكر في قدرة الله على الإحياء والإماتة.
+                <br>
+                • التفكر في خلق الأرض والسماوات.
+                <br>
+                • الإيمان بأن الله بكل شيء عليم.
+
+            </div>
+        `;
+    }
+
+    box.innerHTML=html;
+}
+
+
+/* =========================================================
+   تصحيح سؤال واحد
+========================================================= */
+
+function gradeOne(q){
+
+    const student=
+        document.getElementById("q"+q)
+        .value
+        .trim();
+
+    const data=DATA[q];
+
+    let result;
+
+
+    if(data.type==="verse"){
+
+        /*
+           للأسئلة 12 و13:
+           يمكن قبول أي آية صحيحة محددة
+           تحقق المطلوب.
+        */
+
+        if(data.acceptedVerses){
+
+            let best=null;
+
+            for(
+                const verse
+                of data.acceptedVerses
+            ){
+
+                const r=
+                    compareVerse(
+                        student,
+                        verse
+                    );
+
+                if(
+                    !best ||
+                    r.score>best.score
+                ){
+
+                    best=r;
+                }
+            }
+
+            result=best;
+
+        }else{
+
+            result=
+                compareVerse(
+                    student,
+                    data.expected
+                );
+        }
+
+    }else if(data.type==="word"){
+
+        result=
+            gradeWord(
+                student,
+                data.accepted
+            );
+
+    }else if(data.type==="correction"){
+
+        result=
+            gradeCorrection(
+                q,
+                student
+            );
+
+    }else if(data.type==="order"){
+
+        result=
+            gradeOrder(
+                student,
+                data.expected,
+                data.acceptedOrders || []
+            );
+
+    }else if(data.type==="understanding"){
+
+        result=
+            gradeUnderstanding(
+                student
+            );
+    }
+
+    showFeedback(
+        q,
+        result,
+        student
+    );
+
+    return {
+        ...result,
+        student
+    };
+}
+
+
+/* =========================================================
+   تصحيح الاختبار
+========================================================= */
+
+let RESULTS={};
+
+
+function gradeQuiz(){
+
+    const name=
+        document.getElementById(
+            "studentName"
+        )
+        .value
+        .trim();
+
+    if(!name){
+
+        alert(
+            "فضلاً اكتب اسم الطالب أولًا."
+        );
+
+        document.getElementById(
+            "studentName"
+        ).focus();
+
+        return;
+    }
+
+    RESULTS={};
+
+    let score=0;
+    let correct=0;
+    let partial=0;
+    let wrong=0;
+
+
+    for(let q=1;q<=20;q++){
+
+        const result=
+            gradeOne(q);
+
+        RESULTS[q]=result;
+
+        score+=result.score;
+
+        if(result.score>=1){
+
+            correct++;
+
+        }else if(result.score>0){
+
+            partial++;
+
+        }else{
+
+            wrong++;
+        }
+    }
+
+
+    score=
+        Math.round(score*100)/100;
+
+
+    document.getElementById(
+        "score"
+    ).textContent=
+        score+"/20";
+
+
+    document.getElementById(
+        "correctCount"
+    ).textContent=
+        correct;
+
+
+    document.getElementById(
+        "partialCount"
+    ).textContent=
+        partial;
+
+
+    document.getElementById(
+        "wrongCount"
+    ).textContent=
+        wrong;
+
+
+    let message;
+
+
+    if(score>=19){
+
+        message=
+            "ما شاء الله! حفظ ممتاز جدًا 🌟";
+
+    }else if(score>=17){
+
+        message=
+            "أحسنت! مستوى ممتاز 👏";
+
+    }else if(score>=14){
+
+        message=
+            "جيد جدًا، راجع بعض المواضع للوصول للإتقان 🌷";
+
+    }else if(score>=10){
+
+        message=
+            "جيد، لكن تحتاج إلى مراجعة بعض الآيات.";
+
+    }else{
+
+        message=
+            "تحتاج إلى مزيد من المراجعة، حاول مرة أخرى 💚";
+    }
+
+
+    document.getElementById(
+        "message"
+    ).textContent=
+        message;
+
+
+    buildReview();
+
+
+    document.getElementById(
+        "result"
+    ).style.display=
+        "block";
+
+
+    document.getElementById(
+        "retryBtn"
+    ).classList.remove(
+        "hidden-btn"
+    );
+
+
+    document.getElementById(
+        "result"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+
+/* =========================================================
+   مراجعة الأخطاء
+========================================================= */
+
+function buildReview(){
+
+    const review=
+        document.getElementById(
+            "review"
+        );
+
+    let html=
+        "<h3>📌 مراجعة الأخطاء</h3>";
+
+    let found=false;
+
+
+    for(let q=1;q<=20;q++){
+
+        const r=RESULTS[q];
+
+        if(
+            r &&
+            r.score<1
+        ){
+
+            found=true;
+
+            html+=`
+                <div class="review-item">
+
+                    <strong>
+                        السؤال ${q}
+                    </strong>
+
+                    <br>
+
+                    ${
+                        r.score>0
+                        ?
+                        '<span class="simple">درجة جزئية</span>'
+                        :
+                        '<span class="major">يحتاج مراجعة</span>'
+                    }
+
+                    <br><br>
+
+                    ${getShortCorrection(q,r)}
+
+                </div>
+            `;
+        }
+    }
+
+
+    if(!found){
+
+        html=`
+            <div
+                class="review-item"
+                style="
+                    background:#ecfdf5;
+                    border-color:#86efac;
+                "
+            >
+
+                🎉 ما شاء الله!
+                جميع الإجابات مقبولة.
+
+            </div>
+        `;
+    }
+
+    review.innerHTML=html;
+}
+
+
+/* =========================================================
+   التصحيح المختصر
+========================================================= */
+
+function getShortCorrection(q,r){
+
+    if(
+        r.errors &&
+        r.errors.length
+    ){
+
+        return r.errors.map(e=>{
+
+            if(e.type==="wrong"){
+
+                return `
+                    ❌ الخطأ:
+
+                    <span class="error">
+                        ${escapeHTML(e.student)}
+                    </span>
+
+                    ← الصواب:
+
+                    <span class="fix">
+                        ${escapeHTML(e.correct)}
+                    </span>
+                `;
+            }
+
+            if(e.type==="spelling"){
+
+                return `
+                    ⚠️ خطأ إملائي بسيط:
+
+                    <span class="error">
+                        ${escapeHTML(e.student)}
+                    </span>
+
+                    ←
+
+                    <span class="fix">
+                        ${escapeHTML(e.correct)}
+                    </span>
+                `;
+            }
+
+            if(e.type==="missing"){
+
+                return `
+                    ⚠️ الكلمة الناقصة:
+
+                    <span class="fix">
+                        ${escapeHTML(e.correct)}
+                    </span>
+
+                    في الموضع رقم
+                    ${e.position}
+                `;
+            }
+
+            if(e.type==="extra"){
+
+                return `
+                    ⚠️ الكلمة الزائدة:
+
+                    <span class="error">
+                        ${escapeHTML(e.student)}
+                    </span>
+                `;
+            }
+
+            return "";
+
+        }).join("<br>");
+    }
+
+
+    if(q===20){
+
+        if(
+            r.concepts &&
+            r.concepts.length
+        ){
+
+            return `
+                الفوائد التي ذكرتها:
+
+                <strong>
+                    ${r.concepts.join("، ")}
+                </strong>
+            `;
+        }
+    }
+
+
+    return "راجع التصحيح الظاهر في السؤال.";
+}
+
+
+/* =========================================================
+   إعادة حل الأسئلة الخاطئة
+========================================================= */
+
+function retryWrong(){
+
+    for(let q=1;q<=20;q++){
+
+        const card=
+            document.querySelector(
+                `[data-q="${q}"]`
+            );
+
+        const result=RESULTS[q];
+
+
+        if(
+            result &&
+            result.score>=1
+        ){
+
+            card.classList.add("hidden");
+
+        }else{
+
+            card.classList.remove("hidden");
+
+            document.getElementById(
+                "q"+q
+            ).value="";
+
+            document.getElementById(
+                "f"+q
+            ).style.display="none";
+        }
+    }
+
+
+    document.getElementById(
+        "result"
+    ).style.display="none";
+
+
+    updateProgress();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* =========================================================
+   إعادة الاختبار بالكامل
+========================================================= */
+
+function resetQuiz(){
+
+    if(
+        !confirm(
+            "هل تريد إعادة الاختبار بالكامل؟"
+        )
+    ){
+
+        return;
+    }
+
+
+    document.getElementById(
+        "quiz"
+    ).reset();
+
+
+    for(let q=1;q<=20;q++){
+
+        const card=
+            document.querySelector(
+                `[data-q="${q}"]`
+            );
+
+        card.classList.remove(
+            "correct",
+            "partial",
+            "wrong",
+            "hidden"
+        );
+
+
+        const feedback=
+            document.getElementById(
+                "f"+q
+            );
+
+        feedback.style.display="none";
+        feedback.innerHTML="";
+    }
+
+
+    document.getElementById(
+        "result"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "retryBtn"
+    ).classList.add(
+        "hidden-btn"
+    );
+
+
+    RESULTS={};
+
+
+    updateProgress();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* =========================================================
+   شريط التقدم
+========================================================= */
+
+function updateProgress(){
+
+    let answered=0;
+
+
+    for(let q=1;q<=20;q++){
+
+        const value=
+            document.getElementById(
+                "q"+q
+            ).value.trim();
+
+        if(value){
+
+            answered++;
+        }
+    }
+
+
+    const percent=
+        answered/20*100;
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent=
+        `تمت الإجابة عن ${answered} من 20`;
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width=
+        percent+"%";
+}
+
+
+document
+.querySelectorAll("textarea")
+.forEach(el=>{
+
+    el.addEventListener(
+        "input",
+        updateProgress
+    );
+
+});
+
+
+/* =========================================================
+   حماية HTML
+========================================================= */
+
+function escapeHTML(text){
+
+    return String(text)
+
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   Ctrl + Enter للتصحيح
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e){
+
+        if(
+            e.ctrlKey &&
+            e.key==="Enter"
+        ){
+
+            e.preventDefault();
+
+            gradeQuiz();
+        }
+    }
+);
+
+
+/* تشغيل أولي */
+
+updateProgress();
+
+</script>
+
+</body>
+  </html>
